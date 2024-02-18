@@ -1,2 +1,4 @@
-mo
-let mut x = 1;
+
+pub fn tsdb() {
+    println!("tsdb");
+}
