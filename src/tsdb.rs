@@ -1,5 +1,12 @@
+use chrono::{DateTime, Utc};
+
+pub struct DataPoint {
+    timestamp: DateTime<Utc>,
+    value: i32, // this uses integers for the data and not floats
+}
+
 pub struct TsDb {
-    data: Vec<i32>, // storing only the data points for simplicity
+    data: Vec<DataPoint>,
 }
 
 impl TsDb {
@@ -7,25 +14,29 @@ impl TsDb {
         TsDb { data: Vec::new() }
     }
 
-    // adds the data point to the tsdb
     pub fn insert(&mut self, value: i32) {
-        self.data.push(value);
+        self.data.push(DataPoint {
+            timestamp: Utc::now(),
+            value,
+        });
     }
 
-    // should retrieve the data points.
-    pub fn query_all(&self) -> &[i32] {
+    pub fn query_all(&self) -> &[DataPoint] {
         &self.data
     }
 }
 
 pub fn tsdb() {
-    println!("TSDB!");
     let mut tsdb = TsDb::new();
-
+    //prints the retrievead data to the console.
     tsdb.insert(10);
     tsdb.insert(20);
     tsdb.insert(30);
 
-    let all_data = tsdb.query_all();
-    println!("All Data Points: {:?}", all_data);
+    for data_point in tsdb.query_all() {
+        println!(
+            "Timestamp: {}, Value: {}",
+            data_point.timestamp, data_point.value
+        );
+    }
 }
