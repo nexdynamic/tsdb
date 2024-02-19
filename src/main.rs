@@ -1,6 +1,10 @@
+mod saving;
 mod tsdb;
-use tsdb::tsdb;
+//use tsdb::tsdb;
 
 fn main() {
-    tsdb(); // runs the tsdb function from tsdb.rs
+    //tsdb(); // disabled for to test new file saving systme.
+    if let Err(e) = saving::saving() {
+        println!("An error occurred: {}", e);
+    }
 }

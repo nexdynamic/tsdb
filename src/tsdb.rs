@@ -1,10 +1,12 @@
 use chrono::{DateTime, Utc};
+use serde::{Deserialize, Serialize};
 
+#[derive(Serialize, Deserialize)]
 pub struct DataPoint {
     timestamp: DateTime<Utc>,
     value: i32, // this uses integers for the data and not floats
 }
-
+#[derive(Serialize, Deserialize)]
 pub struct TsDb {
     data: Vec<DataPoint>,
 }
