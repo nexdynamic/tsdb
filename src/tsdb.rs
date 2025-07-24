@@ -1,4 +1,4 @@
-use std::{path::PathBuf, ptr::null};
+use std::{sync::{Arc, Mutex}, path::PathBuf, time::Duration};
 
 struct  TimeSeriesPoint {
     timestamp: u64,
@@ -12,13 +12,28 @@ struct ChunkIndex {
 }
 
 pub struct ChunkWriter {
-    buffer: Vec<TimeSeriesPoint>,
-    max_points: usize,
-    chunk_dir: PathBuf
+    buffer: Arc<Mutex<Vec<TimeSeriesPoint>>>, 
+    flush_interval: Duration,                 
+    chunk_dir: PathBuf,                     
 }
 
 // TODO: buffer data here.
 // we'll try flushing it after t seconds
+
+impl ChunkWriter {
+    pub fn new(flush_interval: Duration, chunk_dir: PathBuf) -> Self {
+        let buffer = Arc::new(Mutex::new(Vec::new()));
+
+        // tghe background thread will go here
+
+        ChunkWriter {
+            buffer,
+            flush_interval,
+            chunk_dir,
+        }
+    }
+}
+
 
 
 pub fn tsdb() {
